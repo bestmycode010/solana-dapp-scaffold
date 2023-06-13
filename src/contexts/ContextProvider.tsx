@@ -9,6 +9,7 @@ import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 import { notify } from "../utils/notifications";
 import { NetworkConfigurationProvider, useNetworkConfiguration } from './NetworkConfigurationProvider';
 import dynamic from "next/dynamic";
+import { SynesisAppProvider } from './SynesisAppContext';
 
 const ReactUIWalletModalProviderDynamic = dynamic(
   async () =>
@@ -44,7 +45,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
                 <ReactUIWalletModalProviderDynamic>
-                    {children}
+                <SynesisAppProvider>{children}</SynesisAppProvider>
                 </ReactUIWalletModalProviderDynamic>
 			</WalletProvider>
         </ConnectionProvider>
