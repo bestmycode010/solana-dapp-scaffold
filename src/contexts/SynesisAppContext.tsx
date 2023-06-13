@@ -22,7 +22,17 @@ export const SynesisAppProvider: FC<SynesisAppProviderProps> = ({ children }) =>
   const prevWalletPublicKey = usePrevious(wallet.publicKey)
 
   useEffect(() => {
-    if (wallet.publicKey) {
+    if (!wallet.publicKey) {
+      if (router.pathname !== '' && router.pathname !== '/') {
+        if (prevWalletPublicKey) {
+          router.push('/')
+        } else {
+          if (wallet.wallet === null) {
+            router.push('/')
+          }
+        }
+      }
+    } else if (wallet.publicKey) {
       if (router.pathname === '' || router.pathname === '/') {
         if (prevWalletPublicKey === null) {
           router.push('/first')
@@ -30,6 +40,7 @@ export const SynesisAppProvider: FC<SynesisAppProviderProps> = ({ children }) =>
       }
     } 
   }, [wallet.publicKey, connection, router.push, router.pathname])
+
   return (
     <SynesisAppContext.Provider
       value={{
